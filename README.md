@@ -28,3 +28,19 @@
 ## Other docs:
 
 - [React](docs/react.md)
+
+## Testing
+
+This repository now includes three testing levels:
+
+- Unit tests (isolated helpers in `src/shared`)
+- Integration tests (React modules and user flows)
+- End-to-end tests (browser-level flows with Playwright)
+
+Commands:
+
+- `yarn test:unit`
+- `yarn test:integration`
+- `yarn test:e2e:install`
+- `yarn test:e2e`
+- `yarn test:ci`
