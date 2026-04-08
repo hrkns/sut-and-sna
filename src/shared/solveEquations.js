@@ -3,6 +3,20 @@ import isEquationSolvable from "./isEquationSolvable";
 import shouldCompute from "./shouldCompute";
 import solveEquation from "./solveEquation";
 
+/**
+ * Iteratively solves a table using a map of equation candidates per cell.
+ *
+ * Side effects:
+ * - Mutates `table` through `shouldCompute`
+ * - Calls `alert` if the iteration safeguard is reached
+ * - Calls `tableSaver` with the final table
+ *
+ * @param {Record<string, string[][]>} equations
+ * @param {Record<string, any>} table
+ * @param {(table: Record<string, any>) => void} tableSaver
+ * @param {string} tableName
+ * @returns {void}
+ */
 const solveEquations = (equations, table, tableSaver, tableName) => {
   console.log("Computing " + tableName + " values");
   let hasComputed;
