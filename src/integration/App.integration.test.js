@@ -1,16 +1,13 @@
-import { render, screen } from "@testing-library/react";
-import App from "../App";
+import { screen } from "@testing-library/react";
+import { APP_SECTIONS, getAccordionHeaderButton, renderApp } from "./utils/testHarness";
 
 describe("App integration smoke", () => {
   test("renders branches selector and main modules", () => {
-    render(<App />);
+    renderApp();
 
     expect(screen.getByText(/Cantidad de ramas/i)).toBeInTheDocument();
-    expect(
-      screen.getByRole("button", { name: /Cuadro de Oferta/i })
-    ).toBeInTheDocument();
-    expect(
-      screen.getByRole("button", { name: /Cuenta de Producci/i })
-    ).toBeInTheDocument();
+    Object.values(APP_SECTIONS).forEach((sectionTitle) => {
+      expect(getAccordionHeaderButton(sectionTitle)).toBeInTheDocument();
+    });
   });
 });
