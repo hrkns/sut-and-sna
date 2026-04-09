@@ -21,4 +21,27 @@ describe("db", () => {
   test("getItem returns null for missing values", () => {
     expect(getItem("missing")).toBeNull();
   });
+
+  test("setItem supports primitive payloads", () => {
+    setItem("number", 7);
+    setItem("text", "hello");
+    setItem("flag", false);
+
+    expect(getItem("number")).toBe(7);
+    expect(getItem("text")).toBe("hello");
+    expect(getItem("flag")).toBe(false);
+  });
+
+  test("getItem throws when stored value is invalid JSON", () => {
+    window.localStorage.setItem("couApp_broken", "{bad-json");
+
+    expect(() => getItem("broken")).toThrow();
+  });
+
+  test("setItem with undefined stores unparsable value that later throws", () => {
+    setItem("undef", undefined);
+
+    expect(window.localStorage.getItem("couApp_undef")).toBe("undefined");
+    expect(() => getItem("undef")).toThrow();
+  });
 });

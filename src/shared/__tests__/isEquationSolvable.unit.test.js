@@ -36,4 +36,36 @@ describe("isEquationSolvable", () => {
 
     expect(isEquationSolvable(equation, values)).toBe(false);
   });
+
+  test("treats zero as a defined value", () => {
+    const equation = ["x", "+", "table.a", "=", "table.b"];
+    const values = {
+      table: {
+        a: 0,
+        b: 4,
+      },
+    };
+
+    expect(isEquationSolvable(equation, values)).toBe(true);
+  });
+
+  test("treats empty string as an undefined value", () => {
+    const equation = ["x", "+", "table.a", "=", "table.b"];
+    const values = {
+      table: {
+        a: "",
+        b: 4,
+      },
+    };
+
+    expect(isEquationSolvable(equation, values)).toBe(false);
+  });
+
+  test("returns false for an equation that only has operators", () => {
+    expect(isEquationSolvable(["+", "-", "="], {})).toBe(false);
+  });
+
+  test("returns true for an equation containing only x", () => {
+    expect(isEquationSolvable(["x"], {})).toBe(true);
+  });
 });

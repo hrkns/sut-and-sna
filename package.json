@@ -26,12 +26,26 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "test:unit": "react-scripts test --watch=false --runInBand --testPathPattern=unit.test.js",
+    "test:unit:coverage": "react-scripts test --watch=false --runInBand --testPathPattern=unit.test.js --coverage",
     "test:integration": "react-scripts test --watch=false --runInBand --testPathPattern=integration.test.js",
     "test:e2e": "playwright test",
     "test:e2e:headed": "playwright test --headed",
     "test:e2e:install": "playwright install",
-    "test:ci": "yarn test:unit && yarn test:integration && yarn test:e2e",
+    "test:ci": "yarn test:unit:coverage && yarn test:integration && yarn test:e2e",
     "eject": "react-scripts eject"
+  },
+  "jest": {
+    "collectCoverageFrom": [
+      "src/shared/**/*.js"
+    ],
+    "coverageThreshold": {
+      "global": {
+        "branches": 100,
+        "functions": 100,
+        "lines": 100,
+        "statements": 100
+      }
+    }
   },
   "eslintConfig": {
     "extends": [

@@ -53,4 +53,31 @@ describe("setEquationsSubset", () => {
       ["vab", "total", "usage"],
     ]);
   });
+
+  test("still creates gov and total keys when there are no branches", () => {
+    const equations = {};
+    const equationBuilder = jest.fn((row, col, side) => [row, col, side]);
+
+    setEquationsSubset([], equations, "imports", "resource", equationBuilder);
+
+    expect(equations).toEqual({
+      "imports.resource.gov": [["imports", "gov", "resource"]],
+      "imports.resource.total": [["imports", "total", "resource"]],
+    });
+    expect(equationBuilder).toHaveBeenCalledTimes(2);
+  });
+
+  test("pushes branch equations even when builder returns undefined", () => {
+    const equations = {};
+    const equationBuilder = jest.fn((row, col, side) => {
+      if (col === "branch1") return undefined;
+      return [row, col, side];
+    });
+
+    setEquationsSubset([1], equations, "row", "usage", equationBuilder);
+
+    expect(equations["row.usage.branch1"]).toEqual([undefined]);
+    expect(equations["row.usage.gov"]).toEqual([["row", "gov", "usage"]]);
+    expect(equations["row.usage.total"]).toEqual([["row", "total", "usage"]]);
+  });
 });

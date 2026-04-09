@@ -22,4 +22,14 @@ describe("genByRow", () => {
       "exports.resource.rm"
     );
   });
+
+  test("supports null column values for mirror total equations", () => {
+    expect(genByRow("pn", "resource", null, "enpf")).toBe("enpf.resource.null");
+  });
+
+  test("ignores varSide when rows do not match", () => {
+    expect(genByRow("imports", "resource", "rm", "exports", "resource")).toBe(
+      "exports.resource.rm"
+    );
+  });
 });

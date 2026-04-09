@@ -13,4 +13,12 @@ describe("hasContent", () => {
     expect(hasContent("  ")).toBe(true);
     expect(hasContent("value")).toBe(true);
   });
+
+  test("returns true for booleans, arrays, objects and NaN", () => {
+    expect(hasContent(false)).toBe(true);
+    expect(hasContent(true)).toBe(true);
+    expect(hasContent([])).toBe(true);
+    expect(hasContent({})).toBe(true);
+    expect(hasContent(Number.NaN)).toBe(true);
+  });
 });

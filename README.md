@@ -40,7 +40,13 @@ This repository now includes three testing levels:
 Commands:
 
 - `yarn test:unit`
+- `yarn test:unit:coverage`
 - `yarn test:integration`
 - `yarn test:e2e:install`
 - `yarn test:e2e`
 - `yarn test:ci`
+
+Coverage policy:
+
+- Unit test coverage is collected from `src/shared/**/*.js`
+- Global thresholds are enforced at `100%` for statements, branches, lines, and functions
