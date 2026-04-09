@@ -18,6 +18,8 @@ const APP_SECTIONS = {
   cuFi: /Cuenta Financiera/i,
 };
 
+const BRANCHES_INPUT_LABEL = /Cantidad de ramas/i;
+
 /**
  * Renders the app with optional localStorage seed values.
  *
@@ -37,6 +39,34 @@ const renderApp = ({ storage = {} } = {}) => {
     user,
     ...rendered,
   };
+};
+
+/**
+ * Finds the global branch-count numeric input.
+ *
+ * @returns {HTMLInputElement}
+ * @throws {Error}
+ */
+const getBranchesCountInput = () => {
+  const label = screen.getByText(BRANCHES_INPUT_LABEL);
+  const container = label.closest(".m-1") || label.parentElement;
+  const input = container?.querySelector("input[type='number']");
+  if (!input) {
+    throw new Error("Could not locate branch count input");
+  }
+  return /** @type {HTMLInputElement} */ (input);
+};
+
+/**
+ * Changes the global branch-count input value.
+ *
+ * @param {string | number} value
+ * @returns {HTMLInputElement}
+ */
+const setBranchesCountInputValue = (value) => {
+  const input = getBranchesCountInput();
+  fireEvent.change(input, { target: { value: `${value}` } });
+  return input;
 };
 
 /**
@@ -196,15 +226,18 @@ const getSectionNumericInputValueByIndex = (
 };
 
 export {
+  BRANCHES_INPUT_LABEL,
   APP_SECTIONS,
   clickSectionActionButton,
   getAccordionHeaderButton,
   getAccordionItemByTitle,
+  getBranchesCountInput,
   getSectionActionButton,
   getSectionNumericInputValueByIndex,
   getSectionNumericInputs,
   getSectionTable,
   openAccordionSection,
   renderApp,
+  setBranchesCountInputValue,
   setSectionNumericInputByIndex,
 };
