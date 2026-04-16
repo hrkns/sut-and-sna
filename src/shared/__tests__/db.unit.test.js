@@ -44,4 +44,19 @@ describe("db", () => {
     expect(window.localStorage.getItem("couApp_undef")).toBe("undefined");
     expect(() => getItem("undef")).toThrow();
   });
+
+  test("setItem rethrows storage errors (e.g. quota exceeded)", () => {
+    const originalSetItem = window.localStorage.setItem.bind(window.localStorage);
+    const setItemSpy = jest
+      .spyOn(Storage.prototype, "setItem")
+      .mockImplementation((key, value) => {
+        if (key === "couApp_quota") {
+          throw new Error("QuotaExceededError");
+        }
+        return originalSetItem(key, value);
+      });
+
+    expect(() => setItem("quota", { value: 1 })).toThrow("QuotaExceededError");
+    setItemSpy.mockRestore();
+  });
 });
