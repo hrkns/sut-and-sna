@@ -412,7 +412,7 @@ const CuFi = ({ appValues }) => {
       &nbsp;
       <CrudModals
         currentItem={CuFiByInstitutionalSectors}
-        storageKey="cuCaByInstitutionalSectors"
+        storageKey="cuFiByInstitutionalSectors"
         saveModalTitle="Guardar Cuenta Financiera por Sectores Institucionales"
         loadModalTitle="Cargar Cuenta Financiera por Sectores Institucionales"
         deleteModalTitle="Borrar Cuenta Financiera por Sectores Institucionales"

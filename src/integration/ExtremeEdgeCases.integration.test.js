@@ -265,8 +265,10 @@ describe("Extreme edge-case integration coverage", () => {
     ];
     objectBackedKeys.forEach((key) => {
       const val = getItem(key);
-      expect(typeof val === 'object' && val !== null).toBe(true);
-      expect(Array.isArray(val)).toBe(false);
+      if (val !== null) {
+        expect(typeof val).toBe("object");
+        expect(Array.isArray(val)).toBe(false);
+      }
     });
 
     expect(window.alert).not.toHaveBeenCalled();

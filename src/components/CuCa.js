@@ -331,6 +331,10 @@ const CuCa = ({ appValues }) => {
     saveCuCaByInstitutionalSectorsValues(emptyCuCaByInstitutionalSectors);
   };
   const retrieveFromCouForByInstitutionalSectors = () => {
+    if (!appValues?.cou) {
+      alert("No hay valores del COU disponibles para recuperar");
+      return;
+    }
     // TODO: customize this segment when copying file content to another (implement retriveing and computing values from COU)
     CuCaByInstitutionalSectors.fbkf.usage.total =
       appValues.cou.totalUses.finalUse.fbkFbkf;

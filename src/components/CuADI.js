@@ -658,6 +658,10 @@ const CuADI = ({ appValues }) => {
     savecuADIByInstitutionalSectorsValues(emptyCuADIByInstitutionalSectors);
   };
   const retrieveFromCouForByInstitutionalSectors = () => {
+    if (!appValues?.cou) {
+      alert("No hay valores del COU disponibles para recuperar");
+      return;
+    }
     // TODO: customize this segment when copying file content to another (implement retriveing and computing values from COU)
 
     // Saldo de Balanza Comercial
