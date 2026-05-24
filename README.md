@@ -1,6 +1,6 @@
 # Web application for calculations of SUT (Supply and Use Table) and National Accounts / Aplicación web para calculos de COU (Cuadro de Oferta y Utilización) y Cuentas Nacionales.
 
-## [Demo](https://hrkns.github.io/cou/)
+## [Demo](https://hrkns.github.io/sut-and-sna/)
 
 ## Modules:
 
