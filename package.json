@@ -1,6 +1,6 @@
 {
   "name": "cou",
-  "version": "0.2.2",
+  "version": "0.2.3",
   "private": true,
   "dependencies": {
     "@testing-library/jest-dom": "^5.17.0",
@@ -42,5 +42,5 @@
       "last 1 safari version"
     ]
   },
-  "homepage": "https://hrkns.github.io/cou"
+  "homepage": "https://hrkns.github.io/sut-and-sna"
 }
