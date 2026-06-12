@@ -1,15 +1,15 @@
 {
   "files": {
     "main.css": "/sut-and-sna/static/css/main.b6db77d5.css",
-    "main.js": "/sut-and-sna/static/js/main.a42183ac.js",
+    "main.js": "/sut-and-sna/static/js/main.1bc47cc6.js",
     "static/js/787.b9a0b2ee.chunk.js": "/sut-and-sna/static/js/787.b9a0b2ee.chunk.js",
     "index.html": "/sut-and-sna/index.html",
     "main.b6db77d5.css.map": "/sut-and-sna/static/css/main.b6db77d5.css.map",
-    "main.a42183ac.js.map": "/sut-and-sna/static/js/main.a42183ac.js.map",
+    "main.1bc47cc6.js.map": "/sut-and-sna/static/js/main.1bc47cc6.js.map",
     "787.b9a0b2ee.chunk.js.map": "/sut-and-sna/static/js/787.b9a0b2ee.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.b6db77d5.css",
-    "static/js/main.a42183ac.js"
+    "static/js/main.1bc47cc6.js"
   ]
 }
