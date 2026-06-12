@@ -109,6 +109,10 @@ const CuGeI = ({ appValues }) => {
     saveCuGeIByActivityValues(emptyCuGeIByActivity);
   };
   const retrieveFromCouForByActivity = () => {
+    if (!appValues?.cou) {
+      alert("No hay valores del COU disponibles para recuperar");
+      return;
+    }
     // retrieve values from VAB row
     if (
       _.every(branchesIndexes, (idx) =>
@@ -402,6 +406,10 @@ const CuGeI = ({ appValues }) => {
     saveCuGeIByInstitutionalSectorsValues(emptyCuGeIByInstitutionalSectors);
   };
   const retrieveFromCouForByInstitutionalSectors = () => {
+    if (!appValues?.cou) {
+      alert("No hay valores del COU disponibles para recuperar");
+      return;
+    }
     // Saldo de Balanza Comercial
     if (
       hasContent(appValues.cou.imports.total) &&

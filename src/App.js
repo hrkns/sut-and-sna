@@ -12,21 +12,156 @@ import CuCa from "./components/CuCa";
 import CuFi from "./components/CuFi";
 import { getItem, setItem } from "./shared/db";
 
+const MIN_BRANCHES = 1;
+const MAX_BRANCHES = 4;
+const DEFAULT_BRANCHES = 3;
+
+const isBranchKey = (key) => /^branch\d+$/.test(key);
+
+const parseBranchIndex = (key) => Number(key.replace("branch", ""));
+
+const createBranches = (amount = DEFAULT_BRANCHES) => {
+  return _.range(1, amount + 1).map((idx) => ({
+    name: `Rama ${idx}`,
+  }));
+};
+
+const createBranchColumns = (branchCount, fillValue = "") => {
+  const cols = {};
+  for (let idx = 1; idx <= branchCount; idx++) {
+    cols[`branch${idx}`] = fillValue;
+  }
+  return cols;
+};
+
+const createEmptyCouBranchRow = (branchCount) => {
+  return {
+    intermediateUse: {
+      ...createBranchColumns(branchCount, ""),
+      gov: "",
+      st: "",
+    },
+    finalUse: {
+      gcfHomes: "",
+      gcfGov: "",
+      fbkFbkf: "",
+      fbkVe: "",
+      exports: "",
+      st: "",
+    },
+    total: "",
+  };
+};
+
+const normalizeCouByBranchCount = (cou, branchCount) => {
+  const normalized =
+    cou && typeof cou === "object" && !Array.isArray(cou) ? _.cloneDeep(cou) : {};
+
+  const emptyBranchRow = createEmptyCouBranchRow(branchCount);
+
+  for (let idx = 1; idx <= branchCount; idx++) {
+    const rowKey = `branch${idx}`;
+    if (!normalized[rowKey] || typeof normalized[rowKey] !== "object") {
+      normalized[rowKey] = _.cloneDeep(emptyBranchRow);
+      continue;
+    }
+    if (
+      !normalized[rowKey].intermediateUse ||
+      typeof normalized[rowKey].intermediateUse !== "object"
+    ) {
+      normalized[rowKey].intermediateUse = _.cloneDeep(
+        emptyBranchRow.intermediateUse
+      );
+    }
+    if (
+      !normalized[rowKey].finalUse ||
+      typeof normalized[rowKey].finalUse !== "object"
+    ) {
+      normalized[rowKey].finalUse = _.cloneDeep(emptyBranchRow.finalUse);
+    }
+    if (!Object.prototype.hasOwnProperty.call(normalized[rowKey], "total")) {
+      normalized[rowKey].total = "";
+    }
+  }
+
+  Object.keys(normalized).forEach((key) => {
+    if (isBranchKey(key) && parseBranchIndex(key) > branchCount) {
+      delete normalized[key];
+    }
+  });
+
+  Object.values(normalized).forEach((row) => {
+    if (!row || typeof row !== "object") {
+      return;
+    }
+
+    if (!row.intermediateUse || typeof row.intermediateUse !== "object") {
+      return;
+    }
+
+    for (let idx = 1; idx <= branchCount; idx++) {
+      const branchKey = `branch${idx}`;
+      if (!Object.prototype.hasOwnProperty.call(row.intermediateUse, branchKey)) {
+        row.intermediateUse[branchKey] = "";
+      }
+    }
+
+    Object.keys(row.intermediateUse).forEach((key) => {
+      if (isBranchKey(key) && parseBranchIndex(key) > branchCount) {
+        delete row.intermediateUse[key];
+      }
+    });
+  });
+
+  return normalized;
+};
+
+const sanitizeAppValues = (storedAppValues) => {
+  if (
+    !storedAppValues ||
+    typeof storedAppValues !== "object" ||
+    Array.isArray(storedAppValues)
+  ) {
+    return {
+      branches: createBranches(DEFAULT_BRANCHES),
+    };
+  }
+
+  let branches = [];
+  if (Array.isArray(storedAppValues.branches)) {
+    branches = storedAppValues.branches
+      .slice(0, MAX_BRANCHES)
+      .map((branch, idx) => {
+        if (branch && typeof branch === "object" && branch.name) {
+          return {
+            name: `${branch.name}`,
+          };
+        }
+        return {
+          name: `Rama ${idx + 1}`,
+        };
+      });
+  }
+
+  if (branches.length < MIN_BRANCHES) {
+    branches = createBranches(DEFAULT_BRANCHES);
+  }
+
+  const sanitized = {
+    ...storedAppValues,
+    branches,
+  };
+
+  if (storedAppValues.cou !== undefined) {
+    sanitized.cou = normalizeCouByBranchCount(storedAppValues.cou, branches.length);
+  }
+
+  return sanitized;
+};
+
 const App = () => {
   const storedAppValues = getItem("appValues");
-  const localAppValues = storedAppValues || {
-    branches: [
-      {
-        name: "Rama 1",
-      },
-      {
-        name: "Rama 2",
-      },
-      {
-        name: "Rama 3",
-      },
-    ],
-  };
+  const localAppValues = sanitizeAppValues(storedAppValues);
   const [appValues, setAppValues] = useState(localAppValues);
 
   useEffect(() => {
@@ -50,18 +185,22 @@ const App = () => {
                 min={1}
                 max={4}
                 onChange={(e) => {
-                  const newBranchesAmount = parseInt(e.target.value);
-                  if (newBranchesAmount > 0 && newBranchesAmount < 5) {
-                    appValues.branches = appValues.branches.slice(
-                      0,
-                      newBranchesAmount
-                    );
-                    while (appValues.branches.length < newBranchesAmount) {
-                      appValues.branches.push({
-                        name: `Rama ${appValues.branches.length + 1}`,
-                      });
+                  const newBranchesAmount = parseInt(e.target.value, 10);
+                  if (
+                    Number.isInteger(newBranchesAmount) &&
+                    newBranchesAmount >= MIN_BRANCHES &&
+                    newBranchesAmount <= MAX_BRANCHES
+                  ) {
+                    const nextAppValues = _.cloneDeep(appValues);
+                    nextAppValues.branches = createBranches(newBranchesAmount);
+                    if (nextAppValues.cou !== undefined) {
+                      nextAppValues.cou = normalizeCouByBranchCount(
+                        nextAppValues.cou,
+                        newBranchesAmount
+                      );
+                      setItem("cou", nextAppValues.cou);
                     }
-                    setAppValues(_.cloneDeep(appValues));
+                    setAppValues(nextAppValues);
                   }
                 }}
               />

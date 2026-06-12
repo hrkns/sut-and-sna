@@ -2,6 +2,16 @@ import _ from "lodash";
 import hasContent from "./hasContent";
 import surround from "./surround";
 
+/**
+ * Builds algebra.js-ready strings for each side of an equation token list.
+ *
+ * Supported operators and symbols (`x`, `+`, `-`, `=`) are copied as-is.
+ * Path-like tokens are resolved against `values` and wrapped in parentheses.
+ *
+ * @param {string[]} equationElements
+ * @param {Record<string, any>} values
+ * @returns {{ leftSide: string, rightSide: string }}
+ */
 const buildEquationSides = (equationElements, values) => {
   let leftSide = "";
   let rightSide = "";

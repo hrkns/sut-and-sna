@@ -1,3 +1,13 @@
+/**
+ * Appends equation variants for all branch columns plus `gov` and `total`.
+ *
+ * @param {number[]} branchesIndexes
+ * @param {Record<string, string[][]>} equations
+ * @param {string} row
+ * @param {string} side
+ * @param {(row: string, col: string, side: string) => string[] | null | undefined} equationBuilder
+ * @returns {void}
+ */
 const setEquationsSubset = (
   branchesIndexes,
   equations,

@@ -1,6 +1,13 @@
 import _ from "lodash";
 import hasContent from "./hasContent";
 
+/**
+ * Determines whether an equation has exactly one unknown value (`x`).
+ *
+ * @param {string[]} equationElements
+ * @param {Record<string, any>} values
+ * @returns {boolean}
+ */
 const isEquationSolvable = (equationElements, values) => {
   let amountOfDefinedValues = 0;
   let amountOfTotalValues = 0;

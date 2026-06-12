@@ -214,6 +214,10 @@ const CuPro = ({ appValues }) => {
     saveCuProByActivityValues(emptyCuProByActivity);
   };
   const retrieveFromCouForByActivity = () => {
+    if (!appValues?.cou) {
+      alert("No hay valores del COU disponibles para recuperar");
+      return;
+    }
     // retrieve values from Production row
     branchesIndexes.forEach((idx) => {
       CuProByActivity.productionPerActivity.resource[`branch${idx}`] =
@@ -472,6 +476,10 @@ const CuPro = ({ appValues }) => {
     saveCuProByInstitutionalSectorsValues(emptyCuproByInstitutionalSectors);
   };
   const retrieveFromCouForByInstitutionalSectors = () => {
+    if (!appValues?.cou) {
+      alert("No hay valores del COU disponibles para recuperar");
+      return;
+    }
     CuProByInstitutionalSectors.imports.resource.rm =
       appValues.cou.imports.total;
     CuProByInstitutionalSectors.imports.resource.total =
