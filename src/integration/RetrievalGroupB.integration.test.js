@@ -139,7 +139,11 @@ describe("Cross-module retrieval from COU - Group B", () => {
       },
     });
 
-    await clickSectionActionButton(APP_SECTIONS.cui, RETRIEVE_BUTTON_LABEL, user);
+    await clickSectionActionButton(
+      APP_SECTIONS.cui,
+      RETRIEVE_BUTTON_LABEL,
+      user
+    );
 
     await waitFor(() =>
       expect(getItem("cUIByInstitutionalSectors").gcf.usage.st).toBe(70)
@@ -172,7 +176,11 @@ describe("Cross-module retrieval from COU - Group B", () => {
       },
     });
 
-    await clickSectionActionButton(APP_SECTIONS.cui, RETRIEVE_BUTTON_LABEL, user);
+    await clickSectionActionButton(
+      APP_SECTIONS.cui,
+      RETRIEVE_BUTTON_LABEL,
+      user
+    );
 
     await waitFor(() =>
       expect(getItem("cUIByInstitutionalSectors").gcf.usage.total).toBe(17)
@@ -201,7 +209,11 @@ describe("Cross-module retrieval from COU - Group B", () => {
       },
     });
 
-    await clickSectionActionButton(APP_SECTIONS.cuCa, RETRIEVE_BUTTON_LABEL, user);
+    await clickSectionActionButton(
+      APP_SECTIONS.cuCa,
+      RETRIEVE_BUTTON_LABEL,
+      user
+    );
 
     await waitFor(() =>
       expect(getItem("cuCaByInstitutionalSectors").fbkf.usage.total).toBe("55")

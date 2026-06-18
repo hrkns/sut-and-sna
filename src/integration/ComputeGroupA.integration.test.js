@@ -22,7 +22,9 @@ jest.mock("../shared/solveEquation", () => {
 
 const CALCULATE_BUTTON_LABEL = /Calcular/i;
 const RETRIEVE_BUTTON_LABEL = /Obtener valores desde el COU/i;
-const actualSolveEquation = jest.requireActual("../shared/solveEquation").default;
+const actualSolveEquation = jest.requireActual(
+  "../shared/solveEquation"
+).default;
 
 const coherentCouValuesByPath = {
   "production.intermediateUse.branch1": "10",
@@ -360,9 +362,9 @@ describe("Cross-module compute behavior - Group A", () => {
     );
 
     await waitFor(() =>
-      expect(getItem("cuProByActivity").intermediateConsumption.usage.branch1).toBe(
-        4
-      )
+      expect(
+        getItem("cuProByActivity").intermediateConsumption.usage.branch1
+      ).toBe(4)
     );
 
     const stored = getItem("cuProByActivity");
@@ -932,9 +934,9 @@ describe("Cross-module compute behavior - Group A", () => {
     );
 
     await waitFor(() =>
-      expect(getItem("cuProByActivity").intermediateConsumption.usage.branch1).toBe(
-        4
-      )
+      expect(
+        getItem("cuProByActivity").intermediateConsumption.usage.branch1
+      ).toBe(4)
     );
 
     const stored = getItem("cuProByActivity");

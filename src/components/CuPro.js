@@ -341,7 +341,9 @@ const CuPro = ({ appValues }) => {
     saveCuProByInstitutionalSectorsValues(CuProByInstitutionalSectors);
   };
   const computeByInstitutionalSectors = () => {
-    console.log("Calculando valores de Cuenta de Producción por Sectores Institucionales");
+    console.log(
+      "Calculando valores de Cuenta de Producción por Sectores Institucionales"
+    );
     const equationInvolvingImportsAndExportsAndSbsx = (row, side, col) => {
       const equations = [];
       equations.push([

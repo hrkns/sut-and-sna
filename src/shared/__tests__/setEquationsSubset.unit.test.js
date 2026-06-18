@@ -5,7 +5,13 @@ describe("setEquationsSubset", () => {
     const equations = {};
     const equationBuilder = jest.fn((row, col, side) => [row, col, side]);
 
-    setEquationsSubset([1, 2], equations, "imports", "resource", equationBuilder);
+    setEquationsSubset(
+      [1, 2],
+      equations,
+      "imports",
+      "resource",
+      equationBuilder
+    );
 
     expect(equations).toEqual({
       "imports.resource.branch1": [["imports", "branch1", "resource"]],
@@ -25,7 +31,9 @@ describe("setEquationsSubset", () => {
 
     setEquationsSubset([1], equations, "tax", "usage", equationBuilder);
 
-    expect(equations["tax.usage.branch1"]).toEqual([["tax", "branch1", "usage"]]);
+    expect(equations["tax.usage.branch1"]).toEqual([
+      ["tax", "branch1", "usage"],
+    ]);
     expect(equations["tax.usage.gov"]).toEqual([]);
     expect(equations["tax.usage.total"]).toEqual([]);
   });

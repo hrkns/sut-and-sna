@@ -37,12 +37,16 @@ const clickSectionActionButtonByIndex = async (
 };
 
 const saveCouSnapshot = async ({ user, fileName, inputValue }) => {
-  await setSectionNumericInputByIndex(APP_SECTIONS.cou, 0, inputValue, { user });
+  await setSectionNumericInputByIndex(APP_SECTIONS.cou, 0, inputValue, {
+    user,
+  });
   await clickSectionActionButton(APP_SECTIONS.cou, /Guardar/i, user);
   const saveDialog = await findModalByTitle(/Guardar COU/i);
   await user.clear(within(saveDialog).getByRole("textbox"));
   await user.type(within(saveDialog).getByRole("textbox"), fileName);
-  await user.click(within(saveDialog).getByRole("button", { name: /Guardar/i }));
+  await user.click(
+    within(saveDialog).getByRole("button", { name: /Guardar/i })
+  );
 };
 
 describe("CRUD and reset edge behavior", () => {
@@ -51,15 +55,24 @@ describe("CRUD and reset edge behavior", () => {
     const { user } = renderApp();
 
     await setSectionNumericInputByIndex(APP_SECTIONS.cuFi, 0, "9", { user });
-    await clickSectionActionButtonByIndex(APP_SECTIONS.cuFi, /Guardar/i, 0, user);
+    await clickSectionActionButtonByIndex(
+      APP_SECTIONS.cuFi,
+      /Guardar/i,
+      0,
+      user
+    );
 
     const saveDialog = await findModalByTitle(/Guardar Cuenta Financiera/i);
     await user.clear(within(saveDialog).getByRole("textbox"));
     await user.type(within(saveDialog).getByRole("textbox"), snapshotName);
-    await user.click(within(saveDialog).getByRole("button", { name: /Guardar/i }));
+    await user.click(
+      within(saveDialog).getByRole("button", { name: /Guardar/i })
+    );
 
     await waitFor(() =>
-      expect(getItem("saved").cuFiByInstitutionalSectors[snapshotName]).toBeDefined()
+      expect(
+        getItem("saved").cuFiByInstitutionalSectors[snapshotName]
+      ).toBeDefined()
     );
 
     const saved = getItem("saved");
@@ -75,7 +88,9 @@ describe("CRUD and reset edge behavior", () => {
     const saveDialog = await findModalByTitle(/Guardar COU/i);
     await user.clear(within(saveDialog).getByRole("textbox"));
     await user.type(within(saveDialog).getByRole("textbox"), "   ");
-    await user.click(within(saveDialog).getByRole("button", { name: /Guardar/i }));
+    await user.click(
+      within(saveDialog).getByRole("button", { name: /Guardar/i })
+    );
 
     const saved = getItem("saved") || {};
     expect(saved.cou).toBeUndefined();
@@ -89,9 +104,9 @@ describe("CRUD and reset edge behavior", () => {
     await saveCouSnapshot({ user, fileName: snapshotName, inputValue: "22" });
 
     await waitFor(() =>
-      expect(getItem("saved").cou[snapshotName].branch1.intermediateUse.branch1).toBe(
-        "22"
-      )
+      expect(
+        getItem("saved").cou[snapshotName].branch1.intermediateUse.branch1
+      ).toBe("22")
     );
   });
 
@@ -106,12 +121,14 @@ describe("CRUD and reset edge behavior", () => {
     await user.click(within(loadDialog).getByText(/^X$/));
 
     const deleteDialog = await findModalByTitle(/Borrar COU/i);
-    await user.click(within(deleteDialog).getByRole("button", { name: /Cerrar/i }));
+    await user.click(
+      within(deleteDialog).getByRole("button", { name: /Cerrar/i })
+    );
 
     await waitFor(() =>
-      expect(getItem("saved").cou[snapshotName].branch1.intermediateUse.branch1).toBe(
-        "15"
-      )
+      expect(
+        getItem("saved").cou[snapshotName].branch1.intermediateUse.branch1
+      ).toBe("15")
     );
   });
 
@@ -194,15 +211,10 @@ describe("CRUD and reset edge behavior", () => {
     ];
 
     for (const resetCase of resetCases) {
-      await setSectionNumericInputByIndex(
-        resetCase.sectionTitle,
-        0,
-        "31",
-        {
-          user,
-          tableIndex: resetCase.tableIndex,
-        }
-      );
+      await setSectionNumericInputByIndex(resetCase.sectionTitle, 0, "31", {
+        user,
+        tableIndex: resetCase.tableIndex,
+      });
 
       await clickSectionActionButtonByIndex(
         resetCase.sectionTitle,

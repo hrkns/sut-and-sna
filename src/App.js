@@ -55,7 +55,9 @@ const createEmptyCouBranchRow = (branchCount) => {
 
 const normalizeCouByBranchCount = (cou, branchCount) => {
   const normalized =
-    cou && typeof cou === "object" && !Array.isArray(cou) ? _.cloneDeep(cou) : {};
+    cou && typeof cou === "object" && !Array.isArray(cou)
+      ? _.cloneDeep(cou)
+      : {};
 
   const emptyBranchRow = createEmptyCouBranchRow(branchCount);
 
@@ -101,7 +103,9 @@ const normalizeCouByBranchCount = (cou, branchCount) => {
 
     for (let idx = 1; idx <= branchCount; idx++) {
       const branchKey = `branch${idx}`;
-      if (!Object.prototype.hasOwnProperty.call(row.intermediateUse, branchKey)) {
+      if (
+        !Object.prototype.hasOwnProperty.call(row.intermediateUse, branchKey)
+      ) {
         row.intermediateUse[branchKey] = "";
       }
     }
@@ -153,7 +157,10 @@ const sanitizeAppValues = (storedAppValues) => {
   };
 
   if (storedAppValues.cou !== undefined) {
-    sanitized.cou = normalizeCouByBranchCount(storedAppValues.cou, branches.length);
+    sanitized.cou = normalizeCouByBranchCount(
+      storedAppValues.cou,
+      branches.length
+    );
   }
 
   return sanitized;

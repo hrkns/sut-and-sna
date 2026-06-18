@@ -44,7 +44,9 @@ describe("App resilience edge behavior", () => {
       expect(getItem("cou").branch1.intermediateUse.branch4).toBeUndefined()
     );
     await waitFor(() =>
-      expect(getItem("appValues").cou.branch1.intermediateUse.branch4).toBeUndefined()
+      expect(
+        getItem("appValues").cou.branch1.intermediateUse.branch4
+      ).toBeUndefined()
     );
   });
 

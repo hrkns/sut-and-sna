@@ -120,7 +120,9 @@ describe("Storage contracts and state synchronization", () => {
       },
     });
 
-    expect(getItem("appValues").cou.branch1.intermediateUse.branch1).toBe("111");
+    expect(getItem("appValues").cou.branch1.intermediateUse.branch1).toBe(
+      "111"
+    );
     expect(getSectionNumericInputValueByIndex(APP_SECTIONS.cou, 0)).toBe("222");
 
     await setSectionNumericInputByIndex(APP_SECTIONS.cou, 0, "333", { user });
@@ -129,7 +131,9 @@ describe("Storage contracts and state synchronization", () => {
       expect(getItem("cou").branch1.intermediateUse.branch1).toBe("333")
     );
     await waitFor(() =>
-      expect(getItem("appValues").cou.branch1.intermediateUse.branch1).toBe("333")
+      expect(getItem("appValues").cou.branch1.intermediateUse.branch1).toBe(
+        "333"
+      )
     );
   });
 
@@ -144,15 +148,21 @@ describe("Storage contracts and state synchronization", () => {
     const branchSequence = [4, 1, 4, 2];
     for (const branchCount of branchSequence) {
       setBranchesCountInputValue(branchCount);
-      await waitFor(() => expect(getItem("appValues").branches).toHaveLength(branchCount));
+      await waitFor(() =>
+        expect(getItem("appValues").branches).toHaveLength(branchCount)
+      );
     }
 
     expect(getBranchesCountInput().value).toBe("2");
     expect(getItem("cou").branch1.intermediateUse.branch1).toBe("7");
     expect(getItem("cou").branch1.intermediateUse.branch3).toBeUndefined();
     expect(getItem("cou").branch1.intermediateUse.branch4).toBeUndefined();
-    expect(getItem("appValues").cou.branch1.intermediateUse.branch3).toBeUndefined();
-    expect(getItem("appValues").cou.branch1.intermediateUse.branch4).toBeUndefined();
+    expect(
+      getItem("appValues").cou.branch1.intermediateUse.branch3
+    ).toBeUndefined();
+    expect(
+      getItem("appValues").cou.branch1.intermediateUse.branch4
+    ).toBeUndefined();
 
     await setSectionNumericInputByIndex(APP_SECTIONS.cou, 1, "8", { user });
     await waitFor(() =>

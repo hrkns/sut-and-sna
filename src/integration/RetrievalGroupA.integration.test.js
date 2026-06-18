@@ -53,11 +53,7 @@ const couValuesByPath = {
   "totalUses.finalUse.exports": "80",
 };
 
-const clickRetrieveFromCouButton = async (
-  sectionTitle,
-  buttonIndex,
-  user
-) => {
+const clickRetrieveFromCouButton = async (sectionTitle, buttonIndex, user) => {
   await openAccordionSection(sectionTitle, user);
   const section = getAccordionItemByTitle(sectionTitle);
   const retrieveButtons = within(section).getAllByRole("button", {
@@ -92,9 +88,9 @@ describe("Cross-module retrieval from COU - Group A", () => {
       ).toBe("10")
     );
     await waitFor(() =>
-      expect(getItem("cuProByActivity").productionPerActivity.resource.total).toBe(
-        "100"
-      )
+      expect(
+        getItem("cuProByActivity").productionPerActivity.resource.total
+      ).toBe("100")
     );
     await waitFor(() =>
       expect(getItem("cuProByActivity").intermediateConsumption.usage.gov).toBe(
@@ -132,9 +128,7 @@ describe("Cross-module retrieval from COU - Group A", () => {
       expect(getItem("cuProByInstitutionalSectors").vab.usage.st).toBe("108")
     );
     await waitFor(() =>
-      expect(getItem("cuProByInstitutionalSectors").ckf.usage.total).toBe(
-        "112"
-      )
+      expect(getItem("cuProByInstitutionalSectors").ckf.usage.total).toBe("112")
     );
   });
 
@@ -178,14 +172,10 @@ describe("Cross-module retrieval from COU - Group A", () => {
     await clickRetrieveFromCouButton(APP_SECTIONS.cuGeI, 1, user);
 
     await waitFor(() =>
-      expect(getItem("cuGeIByInstitutionalSectors").sbsxR.resource.rm).toBe(
-        -30
-      )
+      expect(getItem("cuGeIByInstitutionalSectors").sbsxR.resource.rm).toBe(-30)
     );
     await waitFor(() =>
-      expect(getItem("cuGeIByInstitutionalSectors").sbsxU.usage.total).toBe(
-        -30
-      )
+      expect(getItem("cuGeIByInstitutionalSectors").sbsxU.usage.total).toBe(-30)
     );
     await waitFor(() =>
       expect(getItem("cuGeIByInstitutionalSectors").vab.resource.society).toBe(

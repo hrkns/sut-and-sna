@@ -2,6 +2,11 @@
   "name": "sut-and-sna",
   "version": "0.2.3",
   "private": true,
+  "packageManager": "yarn@1.22.15",
+  "engines": {
+    "node": "24.x",
+    "yarn": ">=1.22 <2"
+  },
   "dependencies": {
     "@testing-library/jest-dom": "^5.17.0",
     "@testing-library/react": "^13.4.0",
@@ -17,33 +22,59 @@
     "web-vitals": "^2.1.4"
   },
   "devDependencies": {
-    "@playwright/test": "^1.53.0"
+    "@babel/plugin-proposal-private-property-in-object": "7.21.11",
+    "@playwright/test": "^1.53.0",
+    "cross-env": "7.0.3",
+    "eslint-config-react-app": "7.0.1",
+    "eslint": "8.57.1",
+    "prettier": "3.3.3"
   },
   "scripts": {
     "predeploy": "yarn build",
     "deploy": "gh-pages -d build",
     "start": "react-scripts start",
     "build": "react-scripts build",
+    "serve:e2e": "node scripts/serve-static.js build 3000",
     "test": "react-scripts test",
-    "test:unit": "react-scripts test --watch=false --runInBand --testPathPattern=unit.test.js",
-    "test:unit:coverage": "react-scripts test --watch=false --runInBand --testPathPattern=unit.test.js --coverage",
-    "test:integration": "react-scripts test --watch=false --runInBand --testPathPattern=integration.test.js",
-    "test:e2e": "playwright test",
-    "test:e2e:headed": "playwright test --headed",
+    "lint": "eslint \"src/**/*.{js,jsx}\"",
+    "format": "prettier --write \"**/*.{js,jsx,json,css,html,md,yml,yaml}\"",
+    "format:check": "prettier --check \"**/*.{js,jsx,json,css,html,md,yml,yaml}\"",
+    "test:unit": "cross-env CI=true react-scripts test --watch=false --runInBand --testPathPattern=unit.test.js",
+    "test:unit:coverage": "yarn test:coverage",
+    "test:integration": "cross-env CI=true react-scripts test --watch=false --runInBand --testPathPattern=integration.test.js",
+    "test:coverage": "cross-env CI=true react-scripts test --watch=false --runInBand --coverage",
+    "test:e2e": "yarn build && yarn test:e2e:run",
+    "test:e2e:run": "node scripts/run-e2e.js",
+    "test:e2e:headed": "yarn build && node scripts/run-e2e.js --headed",
     "test:e2e:install": "playwright install",
-    "test:ci": "yarn test:unit:coverage && yarn test:integration && yarn test:e2e",
+    "test:ci": "yarn validate",
+    "validate": "yarn lint && yarn format:check && yarn test:coverage && yarn build && yarn test:e2e:run",
     "eject": "react-scripts eject"
   },
   "jest": {
     "collectCoverageFrom": [
-      "src/shared/**/*.js"
+      "src/shared/**/*.js",
+      "src/components/**/*.js",
+      "src/App.js"
     ],
     "coverageThreshold": {
-      "global": {
+      "src/shared/**/*.js": {
         "branches": 100,
         "functions": 100,
         "lines": 100,
         "statements": 100
+      },
+      "src/components/**/*.js": {
+        "branches": 70,
+        "functions": 90,
+        "lines": 80,
+        "statements": 80
+      },
+      "src/App.js": {
+        "branches": 80,
+        "functions": 100,
+        "lines": 90,
+        "statements": 90
       }
     }
   },
