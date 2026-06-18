@@ -192,6 +192,7 @@ Goal: reduce dependency risk and keep the app maintainable over time.
 Why this matters:
 
 - The app depends on `react-scripts` and CRA-era tooling.
+- The package manager is pinned to Yarn Classic for the baseline gates, but a Yarn Berry migration should be evaluated once CI is stable.
 - Testing libraries and `gh-pages` are currently listed under `dependencies`, even though they appear to be development/deployment tools.
 - Dependency updates and vulnerability scanning are not automated.
 
@@ -201,6 +202,10 @@ Work items:
 - Move test-only and deploy-only packages to `devDependencies` where appropriate.
 - Add Dependabot or Renovate for dependency updates.
 - Add a policy for when to upgrade React, React Bootstrap, Playwright, and testing libraries.
+- Evaluate migrating from Yarn Classic to Yarn Berry in its own focused PR with no app behavior changes.
+- Start any Yarn Berry migration with `nodeLinker: node-modules` to preserve current `node_modules` behavior and minimize disruption.
+- Treat Plug'n'Play as an explicit later decision only if CRA, Jest, ESLint, Playwright, GitHub Pages deployment, and `yarn validate` remain compatible.
+- If Yarn Berry is adopted, update CI and docs to use the matching install command, such as `yarn install --immutable`.
 - Evaluate whether to stay on CRA short term or migrate to Vite after tests and domain extraction make the move safe.
 - Add bundle-size reporting if bundle growth becomes a concern.
 - Document the deploy path for GitHub Pages, including required permissions and rollback steps.
@@ -209,6 +214,7 @@ Done when:
 
 - Dependency drift is visible in PRs.
 - Build tooling choices are documented.
+- Any package-manager migration passes `yarn validate` locally and in CI without changing app behavior.
 - A future CRA-to-Vite migration has a safe precondition list instead of being an all-at-once rewrite.
 
 ## Stage 8: Security, Privacy, And Deployment Hardening
