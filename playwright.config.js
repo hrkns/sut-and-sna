@@ -1,5 +1,7 @@
 const { defineConfig, devices } = require("@playwright/test");
 
+const ciBrowserOptions = process.env.CI ? { channel: "chrome" } : {};
+
 module.exports = defineConfig({
   testDir: "./e2e",
   timeout: 30000,
@@ -16,7 +18,7 @@ module.exports = defineConfig({
   projects: [
     {
       name: "chromium",
-      use: { ...devices["Desktop Chrome"] },
+      use: { ...devices["Desktop Chrome"], ...ciBrowserOptions },
     },
   ],
 });
