@@ -9,17 +9,39 @@ const serverScript = path.join(__dirname, "serve-static.js");
 
 const waitForServer = () => {
   const startedAt = Date.now();
+  let lastError = "no response yet";
 
   return new Promise((resolve, reject) => {
     const poll = () => {
       const req = http.get(`http://${host}:${port}`, (res) => {
         res.resume();
-        resolve();
+
+        if (res.statusCode >= 200 && res.statusCode < 300) {
+          resolve();
+          return;
+        }
+
+        lastError = `last response status was ${res.statusCode}`;
+        if (Date.now() - startedAt > 120000) {
+          reject(
+            new Error(
+              `Timed out waiting for http://${host}:${port}: ${lastError}`
+            )
+          );
+          return;
+        }
+
+        setTimeout(poll, 250);
       });
 
-      req.on("error", () => {
+      req.on("error", (err) => {
+        lastError = err.message;
         if (Date.now() - startedAt > 120000) {
-          reject(new Error(`Timed out waiting for http://${host}:${port}`));
+          reject(
+            new Error(
+              `Timed out waiting for http://${host}:${port}: ${lastError}`
+            )
+          );
           return;
         }
 
