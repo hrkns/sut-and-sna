@@ -1,5 +1,6 @@
 const { defineConfig, devices } = require("@playwright/test");
 
+const ciBrowserOptions = process.env.CI ? { channel: "chrome" } : {};
 const videoMode = process.env.CI ? "off" : "retain-on-failure";
 
 module.exports = defineConfig({
@@ -18,7 +19,7 @@ module.exports = defineConfig({
   projects: [
     {
       name: "chromium",
-      use: { ...devices["Desktop Chrome"] },
+      use: { ...devices["Desktop Chrome"], ...ciBrowserOptions },
     },
   ],
 });
