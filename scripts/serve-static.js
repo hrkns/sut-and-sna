@@ -43,9 +43,29 @@ const sendFile = (res, filePath) => {
   });
 };
 
+const resolveRequestedPath = (requestedPath) => {
+  const relativePath = requestedPath.replace(/^\/+/, "");
+  const filePath = path.resolve(root, relativePath);
+  const relativeToRoot = path.relative(root, filePath);
+
+  if (relativeToRoot.startsWith("..") || path.isAbsolute(relativeToRoot)) {
+    return null;
+  }
+
+  return filePath;
+};
+
 const server = http.createServer((req, res) => {
   const url = new URL(req.url, `http://${host}:${port}`);
-  let requestedPath = decodeURIComponent(url.pathname);
+  let requestedPath;
+
+  try {
+    requestedPath = decodeURIComponent(url.pathname);
+  } catch (err) {
+    res.writeHead(400);
+    res.end("Bad request");
+    return;
+  }
 
   if (
     requestedPath === publicPath ||
@@ -54,9 +74,9 @@ const server = http.createServer((req, res) => {
     requestedPath = requestedPath.slice(publicPath.length) || "/";
   }
 
-  let filePath = path.join(root, requestedPath);
+  let filePath = resolveRequestedPath(requestedPath);
 
-  if (!filePath.startsWith(root)) {
+  if (!filePath) {
     res.writeHead(403);
     res.end("Forbidden");
     return;
