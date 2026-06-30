@@ -40,7 +40,6 @@
     "format": "prettier --write \"**/*.{js,jsx,json,css,html,md,yml,yaml}\"",
     "format:check": "prettier --check \"**/*.{js,jsx,json,css,html,md,yml,yaml}\"",
     "test:unit": "cross-env CI=true react-scripts test --watch=false --runInBand --testPathPattern=unit.test.js",
-    "test:unit:coverage": "yarn test:coverage",
     "test:integration": "cross-env CI=true react-scripts test --watch=false --runInBand --testPathPattern=integration.test.js",
     "test:coverage": "cross-env CI=true react-scripts test --watch=false --runInBand --coverage",
     "test:e2e": "yarn build && yarn test:e2e:run",
