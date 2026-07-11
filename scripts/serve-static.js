@@ -48,7 +48,7 @@ const resolveRequestedPath = (requestedPath) => {
   const filePath = path.resolve(root, relativePath);
   const relativeToRoot = path.relative(root, filePath);
 
-  if (relativeToRoot.startsWith("..") || path.isAbsolute(relativeToRoot)) {
+  if (relativeToRoot === ".." || relativeToRoot.startsWith(`..${path.sep}`)) {
     return null;
   }
 
