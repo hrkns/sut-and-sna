@@ -55,6 +55,8 @@ const resolveRequestedPath = (requestedPath) => {
   return filePath;
 };
 
+const isAssetRequest = (requestedPath) => path.extname(requestedPath) !== "";
+
 const server = http.createServer((req, res) => {
   let requestedPath;
 
@@ -89,6 +91,12 @@ const server = http.createServer((req, res) => {
   fs.stat(filePath, (err, stats) => {
     if (!err && stats.isFile()) {
       sendFile(res, filePath);
+      return;
+    }
+
+    if (isAssetRequest(requestedPath)) {
+      res.writeHead(404);
+      res.end("Not found");
       return;
     }
 
