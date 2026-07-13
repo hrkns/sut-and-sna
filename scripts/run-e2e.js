@@ -114,4 +114,11 @@ server.on("exit", (code) => {
   }
 });
 
+server.on("error", (err) => {
+  console.error(
+    `Failed to start e2e static server (${serverScript}): ${err.message}`
+  );
+  process.exit(1);
+});
+
 run();
