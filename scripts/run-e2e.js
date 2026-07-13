@@ -82,6 +82,12 @@ const run = async () => {
       }
     );
 
+    test.on("error", (err) => {
+      shutdownServer();
+      console.error(`Failed to start Playwright test runner: ${err.message}`);
+      process.exit(1);
+    });
+
     test.on("exit", (code, signal) => {
       shutdownServer();
       if (signal) {
