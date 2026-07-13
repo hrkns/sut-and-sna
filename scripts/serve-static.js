@@ -56,10 +56,10 @@ const resolveRequestedPath = (requestedPath) => {
 };
 
 const server = http.createServer((req, res) => {
-  const url = new URL(req.url, `http://${host}:${port}`);
   let requestedPath;
 
   try {
+    const url = new URL(req.url, `http://${host}:${port}`);
     requestedPath = decodeURIComponent(url.pathname);
   } catch (err) {
     res.writeHead(400);
