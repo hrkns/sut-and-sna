@@ -6,6 +6,8 @@ const host = "127.0.0.1";
 const port = 3000;
 const root = "build";
 const serverScript = path.join(__dirname, "serve-static.js");
+const serverReadyTimeoutMs = 120000;
+const serverReadyRequestTimeoutMs = 5000;
 
 const waitForServer = () => {
   const startedAt = Date.now();
@@ -22,7 +24,7 @@ const waitForServer = () => {
         }
 
         lastError = `last response status was ${res.statusCode}`;
-        if (Date.now() - startedAt > 120000) {
+        if (Date.now() - startedAt > serverReadyTimeoutMs) {
           reject(
             new Error(
               `Timed out waiting for http://${host}:${port}: ${lastError}`
@@ -36,7 +38,7 @@ const waitForServer = () => {
 
       req.on("error", (err) => {
         lastError = err.message;
-        if (Date.now() - startedAt > 120000) {
+        if (Date.now() - startedAt > serverReadyTimeoutMs) {
           reject(
             new Error(
               `Timed out waiting for http://${host}:${port}: ${lastError}`
@@ -46,6 +48,14 @@ const waitForServer = () => {
         }
 
         setTimeout(poll, 250);
+      });
+
+      req.setTimeout(serverReadyRequestTimeoutMs, () => {
+        req.destroy(
+          new Error(
+            `readiness request timed out after ${serverReadyRequestTimeoutMs}ms`
+          )
+        );
       });
     };
 
