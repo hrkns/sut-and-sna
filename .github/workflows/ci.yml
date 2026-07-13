@@ -53,7 +53,7 @@ jobs:
           retention-days: 7
 
       - name: Build
-        run: yarn build
+        run: yarn build:ci
 
       - name: Run Playwright e2e
         run: yarn test:e2e:run

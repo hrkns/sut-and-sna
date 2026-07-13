@@ -34,6 +34,7 @@
     "deploy": "gh-pages -d build",
     "start": "react-scripts start",
     "build": "react-scripts build",
+    "build:ci": "cross-env CI=true react-scripts build",
     "serve:e2e": "node scripts/serve-static.js build 3000",
     "test": "react-scripts test",
     "lint": "eslint \"src/**/*.{js,jsx}\"",
@@ -47,7 +48,7 @@
     "test:e2e:headed": "yarn build && node scripts/run-e2e.js --headed",
     "test:e2e:install": "playwright install",
     "test:ci": "yarn validate",
-    "validate": "yarn lint && yarn format:check && yarn test:coverage && yarn build && yarn test:e2e:run",
+    "validate": "yarn lint && yarn format:check && yarn test:coverage && yarn build:ci && yarn test:e2e:run",
     "eject": "react-scripts eject"
   },
   "jest": {
