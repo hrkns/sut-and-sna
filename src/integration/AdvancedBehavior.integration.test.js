@@ -1,6 +1,9 @@
 import { waitFor, within } from "@testing-library/react";
 import { getItem } from "../shared/db";
-import { createAppValuesFixture, createCouFixture } from "./fixtures/couFixtures";
+import {
+  createAppValuesFixture,
+  createCouFixture,
+} from "./fixtures/couFixtures";
 import {
   APP_SECTIONS,
   getBranchesCountInput,
@@ -87,7 +90,9 @@ describe("Advanced integration behavior", () => {
     );
 
     await waitFor(() =>
-      expect(getItem("cuGeIByActivity").vabPerActivity.resource.total).toBe("40")
+      expect(getItem("cuGeIByActivity").vabPerActivity.resource.total).toBe(
+        "40"
+      )
     );
 
     const stored = getItem("cuGeIByActivity");
@@ -138,7 +143,9 @@ describe("Advanced integration behavior", () => {
       user
     );
     await waitFor(() =>
-      expect(getItem("cuADIByInstitutionalSectors").sbsx.resource.total).toBe(-30)
+      expect(getItem("cuADIByInstitutionalSectors").sbsx.resource.total).toBe(
+        -30
+      )
     );
     const snapshotAfterFirstRetrieve = JSON.parse(
       JSON.stringify(getItem("cuADIByInstitutionalSectors"))
@@ -195,9 +202,7 @@ describe("Advanced integration behavior", () => {
 
     expect(getBranchesCountInput().value).toBe("2");
 
-    await waitFor(() =>
-      expect(typeof getItem("appValues").cou).toBe("object")
-    );
+    await waitFor(() => expect(typeof getItem("appValues").cou).toBe("object"));
     await waitFor(() =>
       expect(getItem("appValues").cou.branch1.intermediateUse.branch1).toBe("")
     );
@@ -221,7 +226,12 @@ describe("Advanced integration behavior", () => {
       },
     });
 
-    await clickSectionActionButtonByIndex(APP_SECTIONS.cou, /Calcular/i, 0, user);
+    await clickSectionActionButtonByIndex(
+      APP_SECTIONS.cou,
+      /Calcular/i,
+      0,
+      user
+    );
 
     await waitFor(() =>
       expect(Number(getItem("cou").branch1.intermediateUse.st)).toBe(0)
@@ -279,7 +289,12 @@ describe("Advanced integration behavior", () => {
       1,
       user
     );
-    await clickSectionActionButtonByIndex(APP_SECTIONS.cuGeI, /Calcular/i, 1, user);
+    await clickSectionActionButtonByIndex(
+      APP_SECTIONS.cuGeI,
+      /Calcular/i,
+      1,
+      user
+    );
 
     await waitFor(() =>
       expect(getItem("cuGeIByInstitutionalSectors").tax.usage.total).toBe("3")

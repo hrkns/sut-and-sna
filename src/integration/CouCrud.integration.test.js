@@ -20,13 +20,17 @@ const findModalByTitle = async (titleMatcher) => {
 };
 
 const saveCouSnapshot = async ({ user, fileName, inputValue = "21" }) => {
-  await setSectionNumericInputByIndex(APP_SECTIONS.cou, 0, inputValue, { user });
+  await setSectionNumericInputByIndex(APP_SECTIONS.cou, 0, inputValue, {
+    user,
+  });
   await clickSectionActionButton(APP_SECTIONS.cou, /Guardar/i, user);
 
   const saveDialog = await findModalByTitle(/Guardar COU/i);
   await user.clear(within(saveDialog).getByRole("textbox"));
   await user.type(within(saveDialog).getByRole("textbox"), fileName);
-  await user.click(within(saveDialog).getByRole("button", { name: /Guardar/i }));
+  await user.click(
+    within(saveDialog).getByRole("button", { name: /Guardar/i })
+  );
 };
 
 describe("COU CRUD modal flow", () => {
@@ -37,9 +41,9 @@ describe("COU CRUD modal flow", () => {
     await saveCouSnapshot({ user, fileName: snapshotName, inputValue: "21" });
 
     await waitFor(() =>
-      expect(getItem("saved").cou[snapshotName].branch1.intermediateUse.branch1).toBe(
-        "21"
-      )
+      expect(
+        getItem("saved").cou[snapshotName].branch1.intermediateUse.branch1
+      ).toBe("21")
     );
 
     await setSectionNumericInputByIndex(APP_SECTIONS.cou, 0, "99", { user });
@@ -50,7 +54,9 @@ describe("COU CRUD modal flow", () => {
     await clickSectionActionButton(APP_SECTIONS.cou, /Cargar/i, user);
     const loadDialog = await findModalByTitle(/Cargar COU/i);
     await user.click(within(loadDialog).getByDisplayValue(snapshotName));
-    await user.click(within(loadDialog).getByRole("button", { name: /Cargar/i }));
+    await user.click(
+      within(loadDialog).getByRole("button", { name: /Cargar/i })
+    );
 
     await waitFor(() =>
       expect(getSectionNumericInputValueByIndex(APP_SECTIONS.cou, 0)).toBe("21")
@@ -61,7 +67,9 @@ describe("COU CRUD modal flow", () => {
     await user.click(within(loadDialogForDelete).getByText(/^X$/));
 
     const deleteDialog = await findModalByTitle(/Borrar COU/i);
-    await user.click(within(deleteDialog).getByRole("button", { name: /Eliminar/i }));
+    await user.click(
+      within(deleteDialog).getByRole("button", { name: /Eliminar/i })
+    );
 
     await waitFor(() => {
       const saved = getItem("saved") || {};
@@ -92,7 +100,9 @@ describe("COU CRUD modal flow", () => {
     delete saved.cou[snapshotName];
     setItem("saved", saved);
 
-    await user.click(within(loadDialog).getByRole("button", { name: /Cargar/i }));
+    await user.click(
+      within(loadDialog).getByRole("button", { name: /Cargar/i })
+    );
 
     expect(window.alert).toHaveBeenCalledWith("No existe el elemento guardado");
   });

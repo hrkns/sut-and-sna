@@ -46,7 +46,9 @@ describe("db", () => {
   });
 
   test("setItem rethrows storage errors (e.g. quota exceeded)", () => {
-    const originalSetItem = window.localStorage.setItem.bind(window.localStorage);
+    const originalSetItem = window.localStorage.setItem.bind(
+      window.localStorage
+    );
     const setItemSpy = jest
       .spyOn(Storage.prototype, "setItem")
       .mockImplementation((key, value) => {

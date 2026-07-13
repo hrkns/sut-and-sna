@@ -73,9 +73,9 @@ describe("Extreme edge-case integration coverage", () => {
     await clickCalculateByIndex(APP_SECTIONS.cuPro, 0, user);
 
     await waitFor(() =>
-      expect(getItem("cuProByActivity").intermediateConsumption.usage.total).toBe(
-        40
-      )
+      expect(
+        getItem("cuProByActivity").intermediateConsumption.usage.total
+      ).toBe(40)
     );
 
     const stored = getItem("cuProByActivity");
@@ -136,9 +136,9 @@ describe("Extreme edge-case integration coverage", () => {
     await clickCalculateByIndex(APP_SECTIONS.cuPro, 0, user);
 
     await waitFor(() =>
-      expect(getItem("cuProByActivity").intermediateConsumption.usage.total).toBe(
-        0.2
-      )
+      expect(
+        getItem("cuProByActivity").intermediateConsumption.usage.total
+      ).toBe(0.2)
     );
 
     const stored = getItem("cuProByActivity");
@@ -196,9 +196,13 @@ describe("Extreme edge-case integration coverage", () => {
       },
     });
 
-    const beforeFirstCompute = JSON.parse(JSON.stringify(getItem("cuGeIByActivity")));
+    const beforeFirstCompute = JSON.parse(
+      JSON.stringify(getItem("cuGeIByActivity"))
+    );
     await clickCalculateByIndex(APP_SECTIONS.cuGeI, 0, user);
-    const afterFirstCompute = JSON.parse(JSON.stringify(getItem("cuGeIByActivity")));
+    const afterFirstCompute = JSON.parse(
+      JSON.stringify(getItem("cuGeIByActivity"))
+    );
     await clickCalculateByIndex(APP_SECTIONS.cuGeI, 0, user);
     await clickCalculateByIndex(APP_SECTIONS.cuGeI, 0, user);
     const afterRepeatedComputes = getItem("cuGeIByActivity");
@@ -263,13 +267,14 @@ describe("Extreme edge-case integration coverage", () => {
       "cuCaByInstitutionalSectors",
       "cuFiByInstitutionalSectors",
     ];
-    objectBackedKeys.forEach((key) => {
-      const val = getItem(key);
-      if (val !== null) {
-        expect(typeof val).toBe("object");
-        expect(Array.isArray(val)).toBe(false);
-      }
-    });
+    const invalidObjectBackedValues = objectBackedKeys
+      .map((key) => [key, getItem(key)])
+      .filter(
+        ([, val]) =>
+          val !== null && (typeof val !== "object" || Array.isArray(val))
+      );
+
+    expect(invalidObjectBackedValues).toEqual([]);
 
     expect(window.alert).not.toHaveBeenCalled();
   });

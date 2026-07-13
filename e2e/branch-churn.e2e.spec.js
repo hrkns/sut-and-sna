@@ -10,7 +10,9 @@ const ensureSectionOpen = async (page, headerRegex, sectionIndex) => {
   return page.locator(".accordion-item").nth(sectionIndex);
 };
 
-test("branch-count churn keeps COU values normalized after reload", async ({ page }) => {
+test("branch-count churn keeps COU values normalized after reload", async ({
+  page,
+}) => {
   await page.goto("/");
 
   const couSection = await ensureSectionOpen(page, /Cuadro de Oferta/i, 0);
@@ -31,7 +33,11 @@ test("branch-count churn keeps COU values normalized after reload", async ({ pag
   await page.reload();
   await expect(branchesInput).toHaveValue("2");
 
-  const couSectionAfterReload = await ensureSectionOpen(page, /Cuadro de Oferta/i, 0);
+  const couSectionAfterReload = await ensureSectionOpen(
+    page,
+    /Cuadro de Oferta/i,
+    0
+  );
   const couInputsAfterReload = couSectionAfterReload
     .locator("table")
     .first()

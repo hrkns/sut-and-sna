@@ -10,9 +10,7 @@ describe("genByCol", () => {
   });
 
   test("supports null source column for mirror-style equations", () => {
-    expect(genByCol("pn", "resource", null, "total")).toBe(
-      "pn.resource.total"
-    );
+    expect(genByCol("pn", "resource", null, "total")).toBe("pn.resource.total");
   });
 
   test("returns a path even when currentCol is undefined", () => {

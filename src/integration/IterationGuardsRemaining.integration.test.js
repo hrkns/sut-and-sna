@@ -18,7 +18,11 @@ jest.mock("../shared/solveEquation", () => {
 
 const CALCULATE_BUTTON_LABEL = /Calcular/i;
 
-const clickCalculateButtonByIndex = async (sectionTitle, calculateIndex, user) => {
+const clickCalculateButtonByIndex = async (
+  sectionTitle,
+  calculateIndex,
+  user
+) => {
   await openAccordionSection(sectionTitle, user);
   const section = getAccordionItemByTitle(sectionTitle);
   const calculateButtons = within(section).getAllByRole("button", {

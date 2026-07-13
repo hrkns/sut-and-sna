@@ -1,5 +1,9 @@
 import shouldCompute from "../shared/shouldCompute";
-import { APP_SECTIONS, clickSectionActionButton, renderApp } from "./utils/testHarness";
+import {
+  APP_SECTIONS,
+  clickSectionActionButton,
+  renderApp,
+} from "./utils/testHarness";
 
 jest.mock("../shared/shouldCompute", () => {
   const actual = jest.requireActual("../shared/shouldCompute");
@@ -9,7 +13,9 @@ jest.mock("../shared/shouldCompute", () => {
   };
 });
 
-const actualShouldCompute = jest.requireActual("../shared/shouldCompute").default;
+const actualShouldCompute = jest.requireActual(
+  "../shared/shouldCompute"
+).default;
 
 describe("COU iteration guard behavior", () => {
   beforeEach(() => {

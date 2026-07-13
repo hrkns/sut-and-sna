@@ -1,6 +1,9 @@
 import { screen, waitFor, within } from "@testing-library/react";
 import { getItem } from "../shared/db";
-import { createAppValuesFixture, createCouFixture } from "./fixtures/couFixtures";
+import {
+  createAppValuesFixture,
+  createCouFixture,
+} from "./fixtures/couFixtures";
 import {
   APP_SECTIONS,
   getBranchesCountInput,
@@ -124,15 +127,10 @@ describe("Extended CRUD behavior", () => {
     for (const scenario of CRUD_SCENARIOS) {
       const snapshotName = `${scenario.storageKey}-snapshot`;
 
-      await setSectionNumericInputByIndex(
-        scenario.sectionTitle,
-        0,
-        "11",
-        {
-          tableIndex: scenario.tableIndex,
-          user,
-        }
-      );
+      await setSectionNumericInputByIndex(scenario.sectionTitle, 0, "11", {
+        tableIndex: scenario.tableIndex,
+        user,
+      });
 
       await clickSectionActionButtonByIndex(
         scenario.sectionTitle,
@@ -143,21 +141,20 @@ describe("Extended CRUD behavior", () => {
       const saveDialog = await findModalByTitle(scenario.saveTitle);
       await user.clear(within(saveDialog).getByRole("textbox"));
       await user.type(within(saveDialog).getByRole("textbox"), snapshotName);
-      await user.click(within(saveDialog).getByRole("button", { name: /Guardar/i }));
+      await user.click(
+        within(saveDialog).getByRole("button", { name: /Guardar/i })
+      );
 
       await waitFor(() =>
-        expect(getItem("saved")[scenario.storageKey][snapshotName]).toBeDefined()
+        expect(
+          getItem("saved")[scenario.storageKey][snapshotName]
+        ).toBeDefined()
       );
 
-      await setSectionNumericInputByIndex(
-        scenario.sectionTitle,
-        0,
-        "22",
-        {
-          tableIndex: scenario.tableIndex,
-          user,
-        }
-      );
+      await setSectionNumericInputByIndex(scenario.sectionTitle, 0, "22", {
+        tableIndex: scenario.tableIndex,
+        user,
+      });
       await waitFor(() =>
         expect(
           getSectionNumericInputValueByIndex(
@@ -176,7 +173,9 @@ describe("Extended CRUD behavior", () => {
       );
       const loadDialog = await findModalByTitle(scenario.loadTitle);
       await user.click(within(loadDialog).getByDisplayValue(snapshotName));
-      await user.click(within(loadDialog).getByRole("button", { name: /Cargar/i }));
+      await user.click(
+        within(loadDialog).getByRole("button", { name: /Cargar/i })
+      );
 
       await waitFor(() =>
         expect(
@@ -239,10 +238,14 @@ describe("Extended CRUD behavior", () => {
       );
       const loadDialog = await findModalByTitle(scenario.loadTitle);
 
-      expect(within(loadDialog).getByDisplayValue(ownItemName)).toBeInTheDocument();
+      expect(
+        within(loadDialog).getByDisplayValue(ownItemName)
+      ).toBeInTheDocument();
       expect(within(loadDialog).getAllByRole("radio")).toHaveLength(1);
 
-      await user.click(within(loadDialog).getByRole("button", { name: /Cerrar/i }));
+      await user.click(
+        within(loadDialog).getByRole("button", { name: /Cerrar/i })
+      );
     }
 
     expect(window.alert).not.toHaveBeenCalled();
@@ -271,11 +274,17 @@ describe("Extended CRUD behavior", () => {
 
     await clickSectionActionButtonByIndex(APP_SECTIONS.cou, /Cargar/i, 0, user);
     const narrowLoadDialog = await findModalByTitle(/Cargar COU/i);
-    await user.click(within(narrowLoadDialog).getByDisplayValue(wideSnapshotName));
-    await user.click(within(narrowLoadDialog).getByRole("button", { name: /Cargar/i }));
+    await user.click(
+      within(narrowLoadDialog).getByDisplayValue(wideSnapshotName)
+    );
+    await user.click(
+      within(narrowLoadDialog).getByRole("button", { name: /Cargar/i })
+    );
 
     await waitFor(() =>
-      expect(getSectionNumericInputValueByIndex(APP_SECTIONS.cou, 0, 0)).toBe("101")
+      expect(getSectionNumericInputValueByIndex(APP_SECTIONS.cou, 0, 0)).toBe(
+        "101"
+      )
     );
     expect(getBranchesCountInput().value).toBe("1");
 
@@ -315,10 +324,14 @@ describe("Extended CRUD behavior", () => {
     );
 
     await waitFor(() =>
-      expect(getSectionNumericInputValueByIndex(APP_SECTIONS.cou, 0, 0)).toBe("303")
+      expect(getSectionNumericInputValueByIndex(APP_SECTIONS.cou, 0, 0)).toBe(
+        "303"
+      )
     );
     await waitFor(() =>
-      expect(getSectionNumericInputValueByIndex(APP_SECTIONS.cou, 3, 0)).toBe("")
+      expect(getSectionNumericInputValueByIndex(APP_SECTIONS.cou, 3, 0)).toBe(
+        ""
+      )
     );
 
     expect(getBranchesCountInput().value).toBe("4");

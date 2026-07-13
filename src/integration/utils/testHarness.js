@@ -90,7 +90,9 @@ const getAccordionItemByTitle = (sectionTitle) => {
   const button = getAccordionHeaderButton(sectionTitle);
   const item = button.closest(".accordion-item");
   if (!item) {
-    throw new Error(`Could not locate accordion item for section: ${sectionTitle}`);
+    throw new Error(
+      `Could not locate accordion item for section: ${sectionTitle}`
+    );
   }
   return item;
 };
@@ -184,10 +186,7 @@ const setSectionNumericInputByIndex = async (
   sectionTitle,
   inputIndex,
   value,
-  {
-    tableIndex = 0,
-    user,
-  } = {}
+  { tableIndex = 0, user } = {}
 ) => {
   const activeUser = user || userEvent;
   await openAccordionSection(sectionTitle, activeUser);

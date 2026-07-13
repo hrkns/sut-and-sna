@@ -29,6 +29,15 @@
 
 - [React](docs/react.md)
 
+## Setup
+
+This project uses Node `24.x` and Yarn Classic. A fresh checkout should run:
+
+- `corepack enable`
+- `corepack prepare yarn@1.22.15 --activate`
+- `yarn install --frozen-lockfile`
+- `yarn validate`
+
 ## Testing
 
 This repository now includes three testing levels:
@@ -39,14 +48,18 @@ This repository now includes three testing levels:
 
 Commands:
 
+- `yarn lint`
+- `yarn format:check`
+- `yarn test:coverage`
 - `yarn test:unit`
-- `yarn test:unit:coverage`
 - `yarn test:integration`
 - `yarn test:e2e:install`
 - `yarn test:e2e`
-- `yarn test:ci`
+- `yarn build`
+- `yarn validate`
 
 Coverage policy:
 
-- Unit test coverage is collected from `src/shared/**/*.js`
-- Global thresholds are enforced at `100%` for statements, branches, lines, and functions
+- Full Jest coverage is collected from `src/shared/**/*.js`, `src/components/**/*.js`, and `src/App.js`.
+- Shared helper coverage stays at `100%` for statements, branches, lines, and functions.
+- Components and `App.js` use ratcheted thresholds so business-heavy UI code is reported without immediately requiring global `100%`.

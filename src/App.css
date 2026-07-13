@@ -9,11 +9,11 @@
   background: transparent;
   padding: 5px;
   outline: none;
-  text-align: center
+  text-align: center;
 }
 
 .custom-table td {
-  min-width: 100px;  /* Ajusta este valor según tus necesidades */
+  min-width: 100px; /* Ajusta este valor según tus necesidades */
 }
 
 .custom-footer {
